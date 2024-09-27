@@ -56,7 +56,7 @@ class LiveScoreBoardTest {
     }
 
     @Test
-    fun finish() {
+    fun finishMatch() {
         scoreboard.createMatch("Mexico", "Canada")
         assertEquals(1, scoreboard.getMatches().size)
 
@@ -66,27 +66,33 @@ class LiveScoreBoardTest {
         assertThrows<IllegalArgumentException> {
             scoreboard.finishMatch(0)
         }
+
+        assertTrue(scoreboard.matchSummary().isEmpty())
     }
 
     @Test
-    fun summary() {
+    fun matchSummary() {
         scoreboard.createMatch("Mexico", "Canada")
-        scoreboard.updateMatch(0, 0,5)
+        scoreboard.updateMatch(0, 0, 5)
         scoreboard.createMatch("Spain", "Brazil")
-        scoreboard.updateMatch(1, 10,2)
+        scoreboard.updateMatch(1, 10, 2)
         scoreboard.createMatch("Germany", "France")
-        scoreboard.updateMatch(2, 2,2)
+        scoreboard.updateMatch(2, 2, 2)
         scoreboard.createMatch("Uruguay", "Italy")
-        scoreboard.updateMatch(3, 6,6)
+        scoreboard.updateMatch(3, 6, 6)
         scoreboard.createMatch("Argentina", "Australia")
-        scoreboard.updateMatch(4, 3,1)
+        scoreboard.updateMatch(4, 3, 1)
 
         val summary = scoreboard.matchSummary()
         assertEquals(5, summary.size)
 
         val expectedIds = arrayOf(3, 1, 0, 4, 2)
         val actualIds = summary.map { it.id }.toTypedArray()
-        assertArrayEquals(expectedIds, actualIds)
+        assertArrayEquals(
+            expectedIds,
+            actualIds,
+            "Match Summary should be ordered by SUM of the match score desc, and secondly by the id desc"
+        )
 
     }
 }
