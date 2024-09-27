@@ -1,6 +1,5 @@
 import org.example.LiveScoreBoard
 import org.example.LiveScoreBoard.Match
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -69,7 +68,7 @@ class LiveScoreBoardTest {
         val summary = scoreboard.summary()
         assertEquals(5, summary.size)
 
-        val expectedIds = arrayOf(4, 2, 1, 5, 3)
+        val expectedIds = arrayOf(3, 1, 0, 4, 2)
         val actualIds = summary.map { it.id }.toTypedArray()
         assertArrayEquals(expectedIds, actualIds)
 
