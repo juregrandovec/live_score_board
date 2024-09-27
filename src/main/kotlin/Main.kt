@@ -27,7 +27,7 @@ class LiveScoreBoard() {
         }
     }
 
-    fun finish(id: Int) {
+    fun finishMatch(id: Int) {
         if(matches.any { it.id == id }) {
             matches.removeIf { it.id == id }
         } else{
@@ -35,7 +35,7 @@ class LiveScoreBoard() {
         }
     }
 
-    fun summary(): List<Match> {
+    fun matchSummary(): List<Match> {
         return matches.sortedWith(
             compareByDescending { match: Match -> match.homeTeamScore + match.awayTeamScore }
                 .thenByDescending { match: Match -> match.id }
@@ -43,6 +43,6 @@ class LiveScoreBoard() {
     }
 
     fun getMatches(): List<Match> {
-        return matches
+        return matches.toList()
     }
 }

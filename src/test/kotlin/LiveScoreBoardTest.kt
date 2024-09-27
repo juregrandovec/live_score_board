@@ -60,11 +60,11 @@ class LiveScoreBoardTest {
         scoreboard.createMatch("Mexico", "Canada")
         assertEquals(1, scoreboard.getMatches().size)
 
-        scoreboard.finish(0)
+        scoreboard.finishMatch(0)
         assertEquals(0, scoreboard.getMatches().size)
 
         assertThrows<IllegalArgumentException> {
-            scoreboard.finish(0)
+            scoreboard.finishMatch(0)
         }
     }
 
@@ -81,7 +81,7 @@ class LiveScoreBoardTest {
         scoreboard.createMatch("Argentina", "Australia")
         scoreboard.updateMatch(4, 3,1)
 
-        val summary = scoreboard.summary()
+        val summary = scoreboard.matchSummary()
         assertEquals(5, summary.size)
 
         val expectedIds = arrayOf(3, 1, 0, 4, 2)
