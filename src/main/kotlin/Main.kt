@@ -28,7 +28,11 @@ class LiveScoreBoard() {
     }
 
     fun finish(id: Int) {
-        matches.removeIf { it.id == id }
+        if(matches.any { it.id == id }) {
+            matches.removeIf { it.id == id }
+        } else{
+            throw IllegalArgumentException("Match with ID $id not found")
+        }
     }
 
     fun summary(): List<Match> {

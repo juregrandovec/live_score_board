@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 
 class LiveScoreBoardTest {
 
@@ -16,20 +17,31 @@ class LiveScoreBoardTest {
 
     @Test
     fun createMatch() {
-        scoreboard.createMatch("A", "B")
+        scoreboard.createMatch("Mexico", "Canada")
 
-        val matches: List<Match> = scoreboard.getMatches()
+        var matches: List<Match> = scoreboard.getMatches()
         assertEquals(1, matches.size)
         val firstMatch = matches[0]
-        assertEquals("A", firstMatch.homeTeamName)
-        assertEquals("B", firstMatch.awayTeamName)
+        assertEquals("Mexico", firstMatch.homeTeamName)
+        assertEquals("Canada", firstMatch.awayTeamName)
         assertEquals(0, firstMatch.homeTeamScore)
         assertEquals(0, firstMatch.awayTeamScore)
+        assertEquals(0, firstMatch.id)
+
+        scoreboard.createMatch("Spain", "Brazil")
+        matches = scoreboard.getMatches()
+        assertEquals(2, matches.size)
+        val secondMatch = matches[1]
+        assertEquals("Spain", secondMatch.homeTeamName)
+        assertEquals("Brazil", secondMatch.awayTeamName)
+        assertEquals(0, secondMatch.homeTeamScore)
+        assertEquals(0, secondMatch.awayTeamScore)
+        assertEquals(1, secondMatch.id)
     }
 
     @Test
     fun updateMatch() {
-        scoreboard.createMatch("A", "B")
+        scoreboard.createMatch("Mexico", "Canada")
         scoreboard.updateMatch(0, 1, 2)
 
         val matches: List<Match> = scoreboard.getMatches()
@@ -37,19 +49,23 @@ class LiveScoreBoardTest {
         val firstMatch = matches[0]
         assertEquals(1, firstMatch.homeTeamScore)
         assertEquals(2, firstMatch.awayTeamScore)
+
+        assertThrows<IllegalArgumentException> {
+            scoreboard.updateMatch(1, 3, 4)
+        }
     }
 
     @Test
     fun finish() {
-        scoreboard.createMatch("A", "B")
-
-        val matchesAfterCreate: List<Match> = scoreboard.getMatches()
-        assertEquals(1, matchesAfterCreate.size)
+        scoreboard.createMatch("Mexico", "Canada")
+        assertEquals(1, scoreboard.getMatches().size)
 
         scoreboard.finish(0)
+        assertEquals(0, scoreboard.getMatches().size)
 
-        val matchesAfterFinish: List<Match> = scoreboard.getMatches()
-        assertEquals(0, matchesAfterFinish.size)
+        assertThrows<IllegalArgumentException> {
+            scoreboard.finish(0)
+        }
     }
 
     @Test
