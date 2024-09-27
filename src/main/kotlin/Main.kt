@@ -8,7 +8,6 @@ class LiveScoreBoard() {
         val awayTeamName: String,
         var homeTeamScore: Int = 0,
         var awayTeamScore: Int = 0,
-        var isFinished: Boolean = false
     )
 
     private val matches = mutableListOf<Match>()
@@ -22,6 +21,11 @@ class LiveScoreBoard() {
     fun finish(id: Int) {
     }
 
-    fun summary(){
+    fun summary(): List<Match> {
+        return matches
+    }
+
+    fun getMatches(): List<Match> {
+        return matches
     }
 }
