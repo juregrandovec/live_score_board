@@ -42,7 +42,7 @@ class LiveScoreBoard() {
         )
     }
 
-    fun getMatches(): List<Match> {
+    internal fun getMatches(): List<Match> {
         return matches.toList()
     }
 }
