@@ -1,5 +1,5 @@
-import org.example.LiveScoreBoard
-import org.example.LiveScoreBoard.Match
+import org.livescoreboard.LiveScoreBoard
+import org.livescoreboard.LiveScoreBoard.Match
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -94,5 +94,23 @@ class LiveScoreBoardTest {
             "Match Summary should be ordered by SUM of the match score desc, and secondly by the id desc"
         )
 
+    }
+
+    @Test
+    fun sameTotalScoreOrdering() {
+        scoreboard.createMatch("Mexico", "Canada")
+        scoreboard.updateMatch(0, 3, 3)
+        scoreboard.createMatch("Spain", "Brazil")
+        scoreboard.updateMatch(1, 3, 3)
+
+        val summary = scoreboard.matchSummary()
+        assertEquals(2, summary.size)
+        val expectedIds = arrayOf(1,0)
+        val actualIds = summary.map { it.id }.toTypedArray()
+        assertArrayEquals(
+            expectedIds,
+            actualIds,
+            "Match Summary should be ordered by SUM of the match score desc, and secondly by the id desc"
+        )
     }
 }
